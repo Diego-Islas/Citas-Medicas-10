@@ -43,12 +43,12 @@ public record PacienteRequest(
         @Email(message = "El email debe tener un formato valido (ejemplo@dominio.com)")
         String email,
 
-        @Schema(description = "El telefono del paciente", example = "9191011001")
-        @Pattern(regexp = "^[0-9]{10}", message = "El telefono debe tener 10 caracteres numericos")
+        @Schema(description = "El teléfono del paciente", example = "9191011001")
+        @Pattern(regexp = "^[0-9]{10}", message = "El teléfono debe tener 10 caracteres numéricos")
         String telefono,
 
-        @Schema(description = "Direccion del paciente", example = "5A Oriente Norte num 123, Colonia San Pedro, C.P 12345, Puebla, Pue.")
-        @NotBlank(message = "La direccion es requerida")
-        @Size(min = 20, max = 150, message = "La direccion debe tener entre 20 y 150 caracteres")
+        @Schema(description = "Dirección del paciente", example = "5A Oriente Norte num 123, Colonia San Pedro, C.P 12345, Puebla, Pue.")
+        @NotBlank(message = "La dirección es requerida")
+        @Size(min = 1, max = 150, message = "La dirección debe tener entre 1 y 150 caracteres")
         String direccion
 ) { }

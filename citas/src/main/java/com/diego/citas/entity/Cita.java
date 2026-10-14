@@ -23,10 +23,9 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class Cita {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CITA")
+    @Column(name = "ID_CITA", nullable = false)
     private Long id;
 
     @Column(name = "ID_PACIENTE", nullable = false)
@@ -38,7 +37,7 @@ public class Cita {
     @Column(name = "FECHA_CITA", nullable = false)
     private LocalDateTime fechaCita;
 
-    @Column(name = "SINTOMAS", nullable = false, length = 500)
+    @Column(name = "SINTOMAS", nullable = false)
     private String sintomas;
 
     @Column(name = "ESTADO_CITA", nullable = false)
@@ -50,61 +49,61 @@ public class Cita {
     private EstadoRegistro estadoRegistro;
 
     private void validarNoEliminada() {
-        if (this.estadoRegistro == EstadoRegistro.ELIMINADO)
-            throw new ConflictoException("La cita ya está eliminada");
+        if (this.estadoRegistro.equals(EstadoRegistro.ELIMINADO))
+            throw new ConflictoException("La cita con id " + this.id + " ya ha sido eliminada");
     }
 
     private static void validarId(Long id, String campo) {
-        ValoresNumericosUtils.validarLongPositivo(id,
-                "El id del " + campo + " es requerido y debe ser positivo");
+        ValoresNumericosUtils.validarPositivo(id, "El id del " + campo + " es requerido y debe ser positivo");
     }
 
     private static void validarFecha(LocalDateTime fechaCita) {
         if (fechaCita == null || !fechaCita.isAfter(LocalDateTime.now()))
-            throw new DatoInvalidoException("La fecha de la cita es requerida y debe se futura");
+            throw new DatoInvalidoException("La fecha de la cita es requerida y debe ser posterior a la fecha actual");
     }
 
     public static void validarDatos(
-            Long idPaciente, Long idMedico,
-            LocalDateTime fechaCita, String sintomas) {
-
+            Long idPaciente,
+            Long idMedico,
+            LocalDateTime fechaCita,
+            String sintomas
+    ) {
         validarId(idPaciente, "paciente");
-
-        validarId(idMedico, "médico");
+        validarId(idMedico, "medico");
 
         validarFecha(fechaCita);
 
-        StringCustomUtils.validarTamanio(sintomas, 20, 500,
-                "Los síntomas son requeridos y deben ser entre 20 y 500 caracteres");
+        StringCustomUtils.validarTamanio(
+                sintomas, 20, 500,
+                "Los síntomas de la cita son requeridos y deben tener entre 20 y 500 caracteres"
+        );
     }
 
-    private void validarEliminacionPermitida() {
-
+    public void validarEliminacionPermitida() {
         validarNoEliminada();
-
-        if (!estadoCita.isEliminable())
-            throw new ConflictoException(
-                    "La cita con estado " + estadoCita
-                            + " no puede eliminarse");
+        if (!this.estadoCita.isEliminable())
+            throw new ConflictoException("La cita con id " + this.id + " no puede ser eliminada porque su estado es " + this.estadoCita.getDescripcion());
     }
 
-    private void validarActualizacionPermitida() {
-
+    public void validarActualizacionPermitida() {
         validarNoEliminada();
-
-        if (!estadoCita.isActualizable())
-            throw new ConflictoException(
-                    "La cita con estado " + estadoCita
-                            + " no puede actualizarse");
+        if (!this.estadoCita.isActualizable())
+            throw new ConflictoException("La cita con id " + this.id + " no puede ser actualizada porque su estado es " + this.estadoCita.getDescripcion());
     }
 
     public void actualizar(
-            Long idPaciente, Long idMedico,
-            LocalDateTime fechaCita, String sintomas) {
-
+            Long idPaciente,
+            Long idMedico,
+            LocalDateTime fechaCita,
+            String sintomas
+    ) {
         validarActualizacionPermitida();
-
-        validarDatos(idPaciente, idMedico, fechaCita, sintomas);
+        validarDatos(
+                idPaciente,
+                idMedico,
+                fechaCita,
+                sintomas.trim()
+        );
 
         this.idPaciente = idPaciente;
         this.idMedico = idMedico;
@@ -112,33 +111,35 @@ public class Cita {
         this.sintomas = sintomas.trim();
     }
 
-    public void actualizarEstadoCita(EstadoCita nuevoEstado) {
-
+    public void actualizarEstadoCita(EstadoCita nuevoEstadoCita) {
         validarActualizacionPermitida();
 
-        if (nuevoEstado == null)
+        if (nuevoEstadoCita == null)
             throw new DatoInvalidoException("El nuevo estado de la cita es requerido");
 
-        if (!estadoCita.puedeCambiarA(nuevoEstado))
-            throw new ConflictoException("La cita con estado "
-                    + estadoCita + " solo puede cambiar a: "
-                    + estadoCita.puedeCambiar());
+        if (!estadoCita.puedeCambiarA(nuevoEstadoCita))
+            throw new ConflictoException("El estado de la cita con id " + this.id + " no puede cambiar de " + this.estadoCita.getDescripcion() + " a " + nuevoEstadoCita.getDescripcion());
 
-        this.estadoCita = nuevoEstado;
+        this.estadoCita = nuevoEstadoCita;
     }
 
     public void eliminar() {
-
         validarEliminacionPermitida();
-
         this.estadoRegistro = EstadoRegistro.ELIMINADO;
     }
 
     public static Cita crear(
-            Long idPaciente, Long idMedico,
-            LocalDateTime fechaCita, String sintomas) {
-
-        validarDatos(idPaciente, idMedico, fechaCita, sintomas);
+            Long idPaciente,
+            Long idMedico,
+            LocalDateTime fechaCita,
+            String sintomas
+    ) {
+        validarDatos(
+                idPaciente,
+                idMedico,
+                fechaCita,
+                sintomas.trim()
+        );
 
         return Cita.builder()
                 .idPaciente(idPaciente)

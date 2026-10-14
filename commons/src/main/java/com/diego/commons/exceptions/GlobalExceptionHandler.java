@@ -1,7 +1,8 @@
 package com.diego.commons.exceptions;
 
-import feign.RetryableException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,10 +41,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
     }
 
-    // 409: EntidadRelacionada (relación existente entre registros)
+    // 409: la base de datos rechazó el dato (unique, foreign key...)
     @ExceptionHandler(EntidadRelacionadaException.class)
     public ProblemDetail handleEntidadRelacionada(EntidadRelacionadaException e) {
-        log.warn("Relación encontrada: {}", e.getMessage());
+        log.warn("Entidad relacionada: {}", e.getMessage());
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
     }
 
@@ -52,8 +53,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // 400: falló @Valid en el @RequestBody
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException e, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request) {
+            MethodArgumentNotValidException e, @NonNull HttpHeaders headers,
+            @NonNull HttpStatusCode status, @NonNull WebRequest request
+    ) {
 
         List<String> errores = e.getBindingResult().getFieldErrors().stream()
                 .map(err -> err.getField() + ": " + err.getDefaultMessage())
@@ -68,7 +70,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHandlerMethodValidationException(
             HandlerMethodValidationException e, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request) {
+            HttpStatusCode status, WebRequest request
+    ) {
 
         List<String> errores = e.getAllErrors().stream()
                 .map(MessageSourceResolvable::getDefaultMessage)
@@ -79,12 +82,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, pd, headers, status, request);
     }
 
-    // 503: el servicio remoto está caído o no responde
-    @ExceptionHandler({ServicioNoDisponibleException.class, RetryableException.class})
-    public ProblemDetail handleServicioNoDisponible(Exception e) {
-        log.error("Servicio remoto no disponible", e);
+    // 400: falló @Positive, @Min... en un @PathVariable/@RequestParam (AOP lanza ConstraintViolationException)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ProblemDetail handleConstraintViolation(ConstraintViolationException e) {
+        log.warn("Parámetro inválido: {}", e.getMessage());
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST, "Uno o más parámetros no son válidos.");
+        pd.setProperty("errores", e.getConstraintViolations().stream()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                .toList());
+        return pd;
+    }
+
+    // 503: servicio externo no disponible
+    @ExceptionHandler(ServicioNoDisponibleException.class)
+    public ProblemDetail handleServicioNoDisponible(ServicioNoDisponibleException e) {
+        log.error("Servicio externo no disponible", e);
         return ProblemDetail.forStatusAndDetail(HttpStatus.SERVICE_UNAVAILABLE,
-                "Un servicio requerido no está disponible. Intente más tarde.");
+                "Servicio externo no disponible. Contacte al administrador.");
     }
 
     // ---------- Red de seguridad ----------

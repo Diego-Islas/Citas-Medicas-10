@@ -15,6 +15,12 @@ spring:
                 - Path=/api/medicos/**
               filters:
                 - StripPrefix=2
+            - id: pacientes
+              uri: lb://pacientes
+              predicates:
+                - Path=/api/pacientes/**
+              filters:
+                - StripPrefix=2
 
             - id: citas
               uri: lb://citas

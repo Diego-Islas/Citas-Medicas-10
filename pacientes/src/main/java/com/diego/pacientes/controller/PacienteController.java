@@ -28,10 +28,10 @@ public class PacienteController extends CrudController<PacienteRequest, Paciente
             responseCode = "200",
             description = "Buscar registro"
     )
-    public ResponseEntity<PacienteResponse> obtenerPorId(
+    public ResponseEntity<PacienteResponse> obtenerPacientePorIdSinEstado(
             @PathVariable @Positive(message = "El id debe ser positivo")
             Long id
-    ){
-        return ResponseEntity.ok(service.obtenerPacientePorId(id));
+    ) {
+        return ResponseEntity.ok(service.obtenerPorIdSinEstado(id));
     }
 }

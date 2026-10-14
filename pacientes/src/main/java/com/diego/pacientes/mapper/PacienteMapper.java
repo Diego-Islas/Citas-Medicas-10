@@ -29,18 +29,15 @@ public class PacienteMapper implements CommonMapper<PacienteRequest, PacienteRes
         return paciente == null ? null
                 : new PacienteResponse(
                 paciente.getId(),
-                paciente.getNombre(),
-                paciente.getApellidoPaterno(),
-                paciente.getApellidoMaterno(),
+                paciente.obtenerNombreCompleto(),
                 paciente.getEdad(),
                 paciente.getPeso(),
                 paciente.getEstatura(),
                 paciente.getImc(),
                 paciente.getEmail(),
-                paciente.getNumExpediente(),
                 paciente.getTelefono(),
                 paciente.getDireccion(),
-                paciente.getEstadoRegistro().getDescripcion()
+                paciente.getNumExpediente()
         );
     }
 }

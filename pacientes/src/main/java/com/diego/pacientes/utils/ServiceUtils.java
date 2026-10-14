@@ -6,22 +6,26 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Slf4j
 public class ServiceUtils {
-    public static<E, ID> E obtenerEntidadOExcepcion(
+    private ServiceUtils() {
+        /* This utility class should not be instantiated */
+    }
+
+    public static <E, ID> E obtenerEntidadOExcepcion(
             JpaRepository<E, ID> repository,
             ID id,
             Class<E> eClass
-    ){
-        String nombreEntidad =eClass.getSimpleName();
+    ) {
+        String nombreEntidad = eClass.getSimpleName();
 
         log.info("Buscando {} con id: {}", nombreEntidad, id);
 
         return repository.findById(id)
                 .orElseThrow(() ->
-                    new RecursoNoEncontradoException(
-                            nombreEntidad +
-                            " no encontrado con id: " +
-                            id
-                    )
+                        new RecursoNoEncontradoException(
+                                nombreEntidad +
+                                        " no encontrado con id: " +
+                                        id
+                        )
                 );
     }
 }

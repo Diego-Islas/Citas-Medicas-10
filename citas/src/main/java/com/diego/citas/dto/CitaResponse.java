@@ -31,6 +31,7 @@ public record CitaResponse(
                 example = "El paciente presenta dolor de cabeza intenso y fiebre desde hace dos días"
         )
         String sintomas,
+
         @Schema(description = "Estado actual de la cita", example = "Confirmada por el paciente")
         String estadoCita
 ) {

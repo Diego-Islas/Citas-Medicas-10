@@ -15,7 +15,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 
     Optional<Paciente> findByIdAndEstadoRegistro(Long id, EstadoRegistro estadoRegistro);
 
-    boolean existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistro(String email, String telefono, EstadoRegistro estadoRegistro);
+    boolean existsByEmailIgnoreCaseOrTelefonoAndEstadoRegistro(String email, String telefono, EstadoRegistro estadoRegistro);
 
-    boolean existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistroAndIdNot(String email, String telefono, EstadoRegistro estadoRegistro, Long id);
+    boolean existsByEmailIgnoreCaseOrTelefonoAndEstadoRegistroAndIdNot(String email, String telefono, EstadoRegistro estadoRegistro, Long id);
 }

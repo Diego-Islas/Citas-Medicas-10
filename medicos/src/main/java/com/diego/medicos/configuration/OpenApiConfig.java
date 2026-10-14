@@ -3,6 +3,7 @@ package com.diego.medicos.configuration;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,19 +12,28 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
+    @Value("${base.url}")
+    private String baseUrl;
+
+    @Value("${gateway.url}")
+    private String gatewayUrl;
+
     @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI().info(new Info()
-                        .title("API de Médicos")
-                        .version("1.0.0")
-                        .description("API para la gestión del personal médico"))
+    public OpenAPI openApi() {
+        return new OpenAPI().info(
+                        new Info()
+                                .title("API de medicos")
+                                .version("1.0.0")
+                                .description("API para la gestion de personal medico")
+                )
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:8082")
-                                .description("Servidor de localhost"),
+                                .url(baseUrl)
+                                .description("Servidor local"),
+
                         new Server()
-                                .url("http://localhost:8090/api/medicos")
-                                .description("Servidor de API Gateway")
+                                .url(gatewayUrl)
+                                .description("API Gateway")
                 ));
     }
 }

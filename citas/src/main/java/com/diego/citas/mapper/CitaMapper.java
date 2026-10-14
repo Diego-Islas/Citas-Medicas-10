@@ -13,77 +13,79 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CitaMapper implements CommonMapper<CitaRequest, CitaResponse, Cita> {
-
     @Override
     public Cita requestAEntidad(CitaRequest request) {
-        return request == null
-                ? null
+        return request == null ? null
                 : Cita.crear(
                 request.idPaciente(),
                 request.idMedico(),
                 request.fechaCita(),
-                request.sintomas());
+                request.sintomas()
+        );
     }
 
     @Override
-    public CitaResponse entidadAResponse(Cita entidad) {
-        return entidad == null
-                ? null
+    public CitaResponse entidadAResponse(Cita cita) {
+        return cita == null ? null
                 : new CitaResponse(
-                entidad.getId(),
+                cita.getId(),
                 null,
                 null,
-                entidad.getFechaCita(),
-                entidad.getSintomas(),
-                entidad.getEstadoCita().getDescripcion()
+                cita.getFechaCita(),
+                cita.getSintomas(),
+                cita.getEstadoCita().getDescripcion()
         );
     }
 
-    public CitaResponse entidadAResponse(Cita entidad, PacienteResponse paciente, MedicoResponse medico) {
-        return entidad == null
-                ? null
+    public CitaResponse entidadAResponse(Cita cita, PacienteResponse pacienteResponse, MedicoResponse medicoResponse) {
+        return cita == null ? null
                 : new CitaResponse(
-                entidad.getId(),
-                pacienteResponseADatosPaciente(paciente),
-                medicoResponseADatosMedico(medico),
-                entidad.getFechaCita(),
-                entidad.getSintomas(),
-                entidad.getEstadoCita().getDescripcion()
+                cita.getId(),
+                pacienteResponseADatosPaciente(pacienteResponse),
+                medicoResponseADatosMedico(medicoResponse),
+                cita.getFechaCita(),
+                cita.getSintomas(),
+                cita.getEstadoCita().getDescripcion()
         );
     }
 
-    private DatosPaciente pacienteResponseADatosPaciente(PacienteResponse paciente) {
-        return paciente == null
-                ? null
+    private DatosPaciente pacienteResponseADatosPaciente(PacienteResponse pacienteResponse) {
+        return pacienteResponse == null ? null
                 : new DatosPaciente(
-                paciente.nombre(),
-                paciente.numExpediente(),
-                paciente.edad() + " años",
-                paciente.peso() + " kg.",
-                paciente.estatura() + " m.",
+                pacienteResponse.nombre(),
+                pacienteResponse.numExpediente(),
+                pacienteResponse.edad() + " años",
+                pacienteResponse.peso() + " kg.",
+                pacienteResponse.estatura() + " m.",
                 String.join(" ",
-                        Math.round(paciente.imc() * 100.0) / 100.0 + "",
-                        clasificacionIMC(paciente.imc())),
-                paciente.telefono()
+                        Math.round(pacienteResponse.imc() * 100.0) / 100.0 + "",
+                        clasificacionIMC(pacienteResponse.imc())
+                ),
+                pacienteResponse.telefono()
         );
     }
 
-    private String clasificacionIMC(double imc) {
-        if (imc < 18.5) return "Bajo peso";
-        if (imc < 25) return "Peso normal";
-        if (imc < 30) return "Sobrepeso";
-        if (imc < 35) return "Obesidad grado I";
-        if (imc < 40) return "Obesidad grado II";
+    private String clasificacionIMC(Double imc) {
+        if (imc < 18.5)
+            return "Bajo peso";
+        if (imc < 25)
+            return "Peso normal";
+        if (imc < 30)
+            return "Sobrepeso";
+        if (imc < 35)
+            return "Obesidad grado I";
+        if (imc < 40)
+            return "Obesidad grado II";
+
         return "Obesidad grado III";
     }
 
-    private DatosMedico medicoResponseADatosMedico(MedicoResponse medico) {
-
-        return medico == null
-                ? null
+    private DatosMedico medicoResponseADatosMedico(MedicoResponse medicoResponse) {
+        return medicoResponse == null ? null
                 : new DatosMedico(
-                medico.nombre(),
-                medico.cedulaProfesional(),
-                medico.especialidad());
+                medicoResponse.nombre(),
+                medicoResponse.cedulaProfesional(),
+                medicoResponse.especialidad()
+        );
     }
 }

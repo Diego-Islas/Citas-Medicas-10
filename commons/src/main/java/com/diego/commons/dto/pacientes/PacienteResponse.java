@@ -10,12 +10,6 @@ public record PacienteResponse(
         @Schema(description = "Nombre del paciente", example = "Juan")
         String nombre,
 
-        @Schema(description = "El apellido paterno del paciente", example = "Perez")
-        String apellidoPaterno,
-
-        @Schema(description = "El apellido materno del paciente", example = "Perez")
-        String apellidoMaterno,
-
         @Schema(description = "La edad del paciente", example = "20")
         short edad,
 
@@ -31,15 +25,13 @@ public record PacienteResponse(
         @Schema(description = "Email del paciente", example = "laura.martinez@medical.com")
         String email,
 
-        @Schema(description = "Numero de expediente del paciente", example = "12345678901234567890")
-        String numExpediente,
-
         @Schema(description = "El telefono del paciente", example = "9191011001")
         String telefono,
 
         @Schema(description = "Direccion del paciente", example = "5A Oriente Norte num 123, Colonia San Pedro, C.P 12345, Puebla, Pue.")
         String direccion,
 
-        @Schema(description = "Estado del registro", example = "Activo")
-        String estadoRegistro
-) { }
+        @Schema(description = "Numero de expediente del paciente", example = "12345678901234567890")
+        String numExpediente
+) {
+}

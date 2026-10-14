@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
-@RequiredArgsConstructor @Getter
+@RequiredArgsConstructor
+@Getter
 public enum EspecialidadMedico {
 
     MEDICINA_GENERAL(1L, "Medicina General"),
