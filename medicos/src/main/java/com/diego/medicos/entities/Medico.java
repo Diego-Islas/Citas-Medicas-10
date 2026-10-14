@@ -64,7 +64,6 @@ public class Medico {
             String telefono,
             String cedulaProfesional
     ) {
-        // Nombre, Apellido Paterno y Apellido Materno
         StringCustomUtils.validarTamanio(
                 nombre, 1, 50,
                 "El nombre es requerido y debe tener entre 5 y 50 caracteres"
@@ -77,8 +76,6 @@ public class Medico {
                 apellidoMaterno, 1, 50,
                 "El apellido materno es requerido y debe tener entre 5 y 50 caracteres"
         );
-
-        // Validar edad
         ValoresNumericosUtils.validarPositivo(
                 edad,
                 "La edad es requerida y debe ser positiva"
@@ -87,20 +84,14 @@ public class Medico {
                 edad, 18, 100,
                 "La edad es requerida y debe estar entre 18 y 100 años"
         );
-
-        // Validar email
         StringCustomUtils.validarTamanio(
                 email, 5, 100,
                 "El email es requerido y debe contener entre 5 y 100 caracteres"
         );
-
-        // Validar telefono
         StringCustomUtils.validarTextoNumerico(
                 telefono,
                 "El telefonio es requerido y debe contener solo numeros"
         );
-
-        // Validar cedula profesional
         StringCustomUtils.validarTamanio(
                 cedulaProfesional, 12, 12,
                 "La cedula profesional es requerida y debe contener exactamente 12 caracteres"

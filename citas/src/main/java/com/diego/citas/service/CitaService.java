@@ -7,7 +7,7 @@ import com.diego.commons.services.CrudService;
 public interface CitaService extends CrudService<CitaRequest, CitaResponse> {
     void actualizarEstadoCita(Long id, Long idEstado);
 
-    void medicoConCitaActiva(Long idMedico);
+    void pacienteTieneCitaActiva(Long idPaciente);
 
-    void pacienteConCitaActiva(Long idPaciente);
+    void medicoTieneCitaActiva(Long idMedico);
 }

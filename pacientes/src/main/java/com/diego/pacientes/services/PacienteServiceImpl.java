@@ -25,7 +25,6 @@ import java.util.List;
 public class PacienteServiceImpl implements PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PacienteMapper pacienteMapper;
-
     private final CitaClient citaClient;
 
     @Override

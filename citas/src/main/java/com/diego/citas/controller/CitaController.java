@@ -54,7 +54,7 @@ public class CitaController extends CrudController<CitaRequest, CitaResponse, Ci
     public ResponseEntity<Void> pacienteTieneCitaActiva(
             @PathVariable @Positive(message = "El idPaciente debe ser positivo") Long idPaciente
     ) {
-        service.pacienteConCitaActiva(idPaciente);
+        service.pacienteTieneCitaActiva(idPaciente);
         return ResponseEntity.noContent().build();
     }
 
@@ -71,7 +71,7 @@ public class CitaController extends CrudController<CitaRequest, CitaResponse, Ci
     public ResponseEntity<Void> medicoTieneCitaActiva(
             @PathVariable @Positive(message = "El idMedico debe ser positivo") Long idMedico
     ) {
-        service.medicoConCitaActiva(idMedico);
+        service.medicoTieneCitaActiva(idMedico);
         return ResponseEntity.noContent().build();
     }
 }

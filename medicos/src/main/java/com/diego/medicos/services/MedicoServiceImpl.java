@@ -114,9 +114,9 @@ public class MedicoServiceImpl implements MedicoService {
 
     @Override
     public void actualizarDisponibilidadPorCita(Long id, Long idDisponibilidad) {
+        // sin estado: el médico pudo ser eliminado teniendo una cita PENDIENTE
         asignarDisponibilidad(obtenerMedico(id), idDisponibilidad);
     }
-
 
     private void asignarDisponibilidad(Medico medico, Long idDisponibilidad) {
         DisponibilidadMedico anterior = medico.getDisponibilidadMedico();
@@ -129,15 +129,15 @@ public class MedicoServiceImpl implements MedicoService {
                 medico.getId(), anterior.getDescripcion(), nueva.getDescripcion());
     }
 
-    private void validarMedicoEliminableOActualizable(Long id) {
+    private void validarMedicoEliminableOActualizable(Long id){
         try {
             citaClient.medicoTieneCitaActiva(id);
-        } catch (FeignException.Conflict e) {
+        } catch (FeignException.Conflict e){
             throw new ConflictoException("El medico con id: " + id + " tiene citas activas y no puede ser eliminado o actualizado");
         }
     }
 
-    private Medico obtenerMedico(Long id) {
+    private Medico obtenerMedico(Long id){
         return ServiceUtils.obtenerEntidadOExcepcion(
                 medicoRepository,
                 id,
@@ -145,7 +145,7 @@ public class MedicoServiceImpl implements MedicoService {
         );
     }
 
-    private Medico obtenerMedicoActivo(Long id) {
+    private Medico obtenerMedicoActivo(Long id){
         log.info("Obteniendo medico activo con id: {}", id);
         return medicoRepository.findByIdAndEstadoRegistro(
                 id,
@@ -155,7 +155,7 @@ public class MedicoServiceImpl implements MedicoService {
         );
     }
 
-    private void validarRegistroUnico(MedicoRequest request) {
+    private void validarRegistroUnico(MedicoRequest request){
         log.info("Validando email unico...");
         if (medicoRepository.existsByEmailIgnoreCaseAndEstadoRegistro(
                 request.email(), EstadoRegistro.ACTIVO
@@ -175,7 +175,7 @@ public class MedicoServiceImpl implements MedicoService {
             throw new ConflictoException("La cedula profesional " + request.cedulaProfesional() + " ya se encuentra registrada");
     }
 
-    private void validarCambiosUnico(MedicoRequest request, Long id) {
+    private void validarCambiosUnico(MedicoRequest request, Long id){
         log.info("Validando email unico para actualizar...");
         if (medicoRepository.existsByEmailIgnoreCaseAndEstadoRegistroAndIdNot(
                 request.email(), EstadoRegistro.ACTIVO, id
