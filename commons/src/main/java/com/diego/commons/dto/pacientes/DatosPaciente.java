@@ -1,4 +1,3 @@
-
 package com.diego.commons.dto.pacientes;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,46 +5,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Datos de un paciente asociado a una cita")
 public record DatosPaciente(
 
-        @Schema(
-                description = "Nombre completo del paciente",
-                example = "María Fernanda López García"
-        )
+        @Schema(description = "Nombre completo del paciente", example = "Christian García López")
         String nombre,
 
-        @Schema(
-                description = "Número de expediente del paciente",
-                example = "EXP-00125"
-        )
-        String numeroExpediente,
+        @Schema(description = "Número de expediente del paciente", example = "1X2X3X4X5X6X7X8X9X0X")
+        String numExpediente,
 
-        @Schema(
-                description = "Edad del paciente en años",
-                example = "35"
-        )
+        @Schema(description = "Edad del paciente", example = "18")
         String edad,
 
-        @Schema(
-                description = "Peso del paciente en kilogramos",
-                example = "68.5"
-        )
+        @Schema(description = "Peso del paciente", example = "80.5")
         String peso,
 
-        @Schema(
-                description = "Estatura del paciente en metros",
-                example = "1.70"
-        )
+        @Schema(description = "Estatura del paciente", example = "1.80")
         String estatura,
 
-        @Schema(
-                description = "Índice de masa corporal del paciente",
-                example = "23.53"
-        )
+        @Schema(description = "IMC del paciente", example = "22.2 Peso normal")
         String imc,
 
-        @Schema(
-                description = "Número telefónico del paciente",
-                example = "7711234567"
-        )
+        @Schema(description = "Teléfono del paciente", example = "1234567890")
         String telefono
-) {
-}
+) {}

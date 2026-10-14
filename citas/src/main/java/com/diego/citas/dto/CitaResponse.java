@@ -1,4 +1,3 @@
-
 package com.diego.citas.dto;
 
 import com.diego.commons.dto.medicos.DatosMedico;

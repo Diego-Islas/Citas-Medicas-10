@@ -2,27 +2,28 @@ package com.diego.citas.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import org.springframework.beans.factory.annotation.Value;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${base.url}")
-    private String baseUrl;
-
-    @Value("${gateway.url}")
-    private String gatewayUrl;
-
     @Bean
-    public OpenAPI openApi() {
-        return new OpenAPI()
-                .info(
-                        new Info()
-                                .title("API de Citas")
-                                .version("1.0.0")
-                                .description("API para la gestión de citas médicas")
-                );
+    public OpenAPI openAPI() {
+        return new OpenAPI().info(new Info()
+                        .title("API de Citas")
+                        .version("1.0.0")
+                        .description("API para la gestión de citas médicas"))
+                .servers(List.of(
+                        new Server()
+                                .url("http://localhost:8083")
+                                .description("Servidor de localhost"),
+                        new Server()
+                                .url("http://localhost:8090/api/citas")
+                                .description("Servidor de API Gateway")
+                ));
     }
 }

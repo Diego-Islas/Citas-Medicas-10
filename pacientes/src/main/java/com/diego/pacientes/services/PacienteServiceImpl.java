@@ -92,7 +92,7 @@ public class PacienteServiceImpl implements PacienteService {
         log.info("Paciente eliminado con id:{}", id);
     }
 
-    private Paciente obtenerPaciente(Long id) {
+    private Paciente obtenerPaciente(Long id){
         return ServiceUtils.obtenerEntidadOExcepcion(
                 pacienteRepository,
                 id,
@@ -100,7 +100,7 @@ public class PacienteServiceImpl implements PacienteService {
         );
     }
 
-    private Paciente obtenerPacienteActivo(Long id) {
+    private Paciente obtenerPacienteActivo(Long id){
         log.info("Obteniendo paciente activo con id: {}", id);
         return pacienteRepository.findByIdAndEstadoRegistro(
                 id, EstadoRegistro.ACTIVO
@@ -111,8 +111,8 @@ public class PacienteServiceImpl implements PacienteService {
         );
     }
 
-    private void validarRegistroUnico(PacienteRequest request) {
-        if (pacienteRepository.existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistro(
+    private void validarRegistroUnico(PacienteRequest request){
+        if(pacienteRepository.existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistro(
                 request.email().toLowerCase(),
                 request.telefono(),
                 EstadoRegistro.ACTIVO
@@ -120,8 +120,8 @@ public class PacienteServiceImpl implements PacienteService {
             throw new ConflictoException("Ya existe un paciente registrado con el mismo correo electrónico y número de teléfono");
     }
 
-    private void validarActualizarUnico(PacienteRequest request, Long id) {
-        if (pacienteRepository.existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistroAndIdNot(
+    private void validarActualizarUnico(PacienteRequest request, Long id){
+        if(pacienteRepository.existsByEmailIgnoreCaseAndTelefonoAndEstadoRegistroAndIdNot(
                 request.email().toLowerCase(),
                 request.telefono(),
                 EstadoRegistro.ACTIVO,

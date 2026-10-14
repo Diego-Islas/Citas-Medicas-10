@@ -30,7 +30,6 @@ public final class ValoresNumericosUtils {
             throw new DatoInvalidoException(mensajeError);
     }
 
-
     public static <N extends Number> void validarRango(
             N numero,
             N minimo,
@@ -49,14 +48,23 @@ public final class ValoresNumericosUtils {
             throw new DatoInvalidoException(mensajeError);
     }
 
+    public static void validarLongPositivo(Long numero, String mensaje) {
+
+        validarNumeroRequerido(numero, mensaje);
+
+        if (numero < 0)
+            throw new DatoInvalidoException(mensaje);
+    }
+
     private static BigDecimal convertir(Number numero) {
         return new BigDecimal(numero.toString());
     }
 
-    public static void validarLongPositivo(Long numero, String mensajeError) {
-        validarNumeroRequerido(numero, mensajeError);
+    public static void validarRangoShort(Short numero, short min, short max, String mensaje) {
 
-        if (numero < 0)
-            throw new DatoInvalidoException(mensajeError);
+        validarNumeroRequerido(numero, mensaje);
+
+        if (numero < min || numero > max)
+            throw new DatoInvalidoException(mensaje);
     }
 }

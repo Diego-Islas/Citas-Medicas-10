@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-
 @Entity
 @Table(name = "PACIENTES")
 @AllArgsConstructor
@@ -73,18 +72,18 @@ public class Paciente {
             String email,
             String telefono,
             String direccion
-    ) {
+    ){
         // Nombre, Apellido Paterno y Apellido Materno
         StringCustomUtils.validarTamanio(
                 nombre, 1, 50,
                 "El nombre es requerido y debe tener entre 5 y 50 caracteres"
         );
         StringCustomUtils.validarTamanio(
-                apellidoPaterno, 1, 50,
+                apellidoPaterno, 1 ,50,
                 "El apellido paterno es requerido y debe tener entre 5 y 50 caracteres"
         );
         StringCustomUtils.validarTamanio(
-                apellidoMaterno, 1, 50,
+                apellidoMaterno, 1 ,50,
                 "El apellido materno es requerido y debe tener entre 5 y 50 caracteres"
         );
 
@@ -127,12 +126,12 @@ public class Paciente {
         // Validar telefono
         StringCustomUtils.validarTextoNumerico(
                 telefono,
-                "El teléfono es requerido y debe contener solo números"
+                "El telefonio es requerido y debe contener solo numeros"
         );
         // Validar direccion
         StringCustomUtils.validarTamanio(
                 direccion, 1, 150,
-                "La dirección es requerida y debe tener entre 20 y 150 caracteres"
+                "La direccion es requerida y debe tener entre 20 y 150 caracteres"
         );
     }
 
@@ -146,7 +145,7 @@ public class Paciente {
             String email,
             String telefono,
             String direccion
-    ) {
+    ){
         validarDatos(
                 nombre.trim(),
                 apellidoPaterno.trim(),
@@ -179,7 +178,7 @@ public class Paciente {
             String email,
             String telefono,
             String direccion
-    ) {
+    ){
         validarDatos(
                 nombre.trim(),
                 apellidoPaterno.trim(),
@@ -205,18 +204,21 @@ public class Paciente {
         this.direccion = direccion.trim();
     }
 
-    private static String generarNumeroDeExpediente(String telefono) {
+    private static String generarNumeroDeExpediente(String telefono){
+        // Número de expediente: se genera a partir del teléfono.
+        // Según el ejemplo del anexo, cada dígito del teléfono va
+        // seguido de una X (5512345678 → 5X5X1X2X3X4X5X6X7X8X).
         return telefono.chars()
                 .mapToObj(c -> (char) c + "X")
                 .reduce("", String::concat);
     }
 
-    private void validaNoEliminado() {
+    private void validaNoEliminado(){
         if (this.estadoRegistro.equals(EstadoRegistro.ELIMINADO))
             throw new ConflictoException("El medico ya se encuentra eliminado");
     }
 
-    public void eliminar() {
+    public void eliminar(){
         validaNoEliminado();
 
         this.estadoRegistro = EstadoRegistro.ELIMINADO;
@@ -232,7 +234,7 @@ public class Paciente {
             String email,
             String telefono,
             String direccion
-    ) {
+    ){
         validarDatos(
                 nombre.trim(),
                 apellidoPaterno.trim(),

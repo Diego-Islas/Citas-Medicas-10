@@ -2,7 +2,7 @@ package com.diego.commons.dto.pacientes;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Información de un paciente")
+@Schema(description = "Datos de un paciente")
 public record PacienteResponse(
         @Schema(description = "Identificador del paciente", example = "1")
         Long id,
@@ -34,13 +34,12 @@ public record PacienteResponse(
         @Schema(description = "Numero de expediente del paciente", example = "12345678901234567890")
         String numExpediente,
 
-        @Schema(description = "El teléfono del paciente", example = "9191011001")
+        @Schema(description = "El telefono del paciente", example = "9191011001")
         String telefono,
 
-        @Schema(description = "Dirección del paciente", example = "5A Oriente Norte num 123, Colonia San Pedro, C.P 12345, Puebla, Pue.")
+        @Schema(description = "Direccion del paciente", example = "5A Oriente Norte num 123, Colonia San Pedro, C.P 12345, Puebla, Pue.")
         String direccion,
 
         @Schema(description = "Estado del registro", example = "Activo")
         String estadoRegistro
-) {
-}
+) { }

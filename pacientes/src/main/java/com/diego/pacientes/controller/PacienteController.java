@@ -35,7 +35,3 @@ public class PacienteController extends CrudController<PacienteRequest, Paciente
         return ResponseEntity.ok(service.obtenerPacientePorId(id));
     }
 }
-
-//-- Leer Monolito vs MVC vs Microservicios, IoC, Inyeccion de dependencias,
-//-- Clearn arquitectur en springboot, eureka server, reactive api gateway,
-//-- faing, microservicios con springboot

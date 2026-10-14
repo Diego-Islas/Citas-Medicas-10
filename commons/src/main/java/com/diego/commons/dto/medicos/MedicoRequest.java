@@ -52,5 +52,4 @@ public record MedicoRequest(
         @Positive(message = "El id de la especialidad debe ser positivo")
         Long idEspecialidad
 
-) {
-}
+) {}

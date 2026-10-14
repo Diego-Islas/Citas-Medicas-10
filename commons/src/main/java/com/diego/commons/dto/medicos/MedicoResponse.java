@@ -33,5 +33,4 @@ public record MedicoResponse(
         @Schema(description = "Identificador de la disponibilidad asociada al médico", example = "1")
         Long idDisponibilidad
 
-) {
-}
+) {}

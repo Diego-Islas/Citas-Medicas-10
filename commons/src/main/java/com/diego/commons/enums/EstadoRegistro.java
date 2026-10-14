@@ -13,16 +13,16 @@ public enum EstadoRegistro {
 
     private final String descripcion;
 
-    public static EstadoRegistro obtenerPorDescripcion(String descripcion) {
+    public static EstadoRegistro obtenerPorDescripcion(String descripcion){
         String descripcionNormalizada = StringCustomUtils.normalizarTexto(descripcion);
-        for (EstadoRegistro estadoRegistro : values()) {
-            if (StringCustomUtils.normalizarTexto(
+        for(EstadoRegistro estadoRegistro : values()){
+            if(StringCustomUtils.normalizarTexto(
                     estadoRegistro.descripcion
             ).equals(descripcionNormalizada))
                 return estadoRegistro;
         }
 
-        throw new DatoInvalidoException("No existe un estado de registro con descripción: " + descripcion);
+        throw new DatoInvalidoException("No existe un estado de registro con descripcion: " + descripcion);
     }
 
 }

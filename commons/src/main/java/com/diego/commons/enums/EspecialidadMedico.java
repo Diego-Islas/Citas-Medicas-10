@@ -1,14 +1,12 @@
 package com.diego.commons.enums;
 
-
 import com.diego.commons.exceptions.RecursoNoEncontradoException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
-@RequiredArgsConstructor
-@Getter
+@RequiredArgsConstructor @Getter
 public enum EspecialidadMedico {
 
     MEDICINA_GENERAL(1L, "Medicina General"),

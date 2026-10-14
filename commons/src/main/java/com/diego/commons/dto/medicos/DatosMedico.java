@@ -1,4 +1,3 @@
-
 package com.diego.commons.dto.medicos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,5 +13,4 @@ public record DatosMedico(
 
         @Schema(description = "Nombre de la especialidad médica del médico", example = "Cardiología")
         String especialidad
-) {
-}
+) {}

@@ -4,6 +4,7 @@ import com.diego.commons.exceptions.RecursoNoEncontradoException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,15 +13,39 @@ import java.util.Set;
 public enum EstadoCita {
 
     PENDIENTE(1L, "Pendiente de confirmar", true, true) {
-        @Voerrride
-        public Set<EstadoCita>puedeCambiar(){
-            retunrEnumSet.of(FINALIZADA)
+        @Override
+        public Set<EstadoCita> puedeCambiar() {
+            return EnumSet.of(CONFIRMADA, CANCELADA);
         }
     },
-    CONFIRMADA(2L, "Confirmada por el paciente", true, false),
-    EN_CURSO(3L, "Paciente llego a su cita", true, false),
-    FINALIZADA(4L, "Cita finalizada", false, true),
-    CANCELADA(5L, "Cita cancelada", false, true);
+
+    CONFIRMADA(2L, "Confirmada por el paciente", true, false) {
+        @Override
+        public Set<EstadoCita> puedeCambiar() {
+            return EnumSet.of(EN_CURSO, CANCELADA);
+        }
+    },
+
+    EN_CURSO(3L, "Paciente llegó a su cita", true, false) {
+        @Override
+        public Set<EstadoCita> puedeCambiar() {
+            return EnumSet.of(FINALIZADA);
+        }
+    },
+
+    FINALIZADA(4L, "Cita finalizada", false, true) {
+        @Override
+        public Set<EstadoCita> puedeCambiar() {
+            return Set.of();
+        }
+    },
+
+    CANCELADA(5L, "Cita cancelada", false, true) {
+        @Override
+        public Set<EstadoCita> puedeCambiar() {
+            return Set.of();
+        }
+    };
 
     private final Long codigo;
 
@@ -30,15 +55,18 @@ public enum EstadoCita {
 
     private final boolean eliminable;
 
+    public abstract Set<EstadoCita> puedeCambiar();
 
-    prviate abstrac Se<EstadoCita> cmabiarEstado;
+    public boolean puedeCambiarA(EstadoCita estadoCita) {
+        return puedeCambiar().contains(estadoCita);
+    }
 
     public static EstadoCita obtenerEstadoCitaPorCodigo(Long codigo) {
-        for (EstadoCita estadoCita : values()) {
-            if (Objects.equals(estadoCita.codigo, codigo)) {
-                return estadoCita;
+        for (EstadoCita e : values()) {
+            if (Objects.equals(e.codigo, codigo)) {
+                return e;
             }
         }
-        throw new RecursoNoEncontradoException("Código de cita no valido: " + codigo);
+        throw new RecursoNoEncontradoException("Código de cita no válido: " + codigo);
     }
 }

@@ -25,5 +25,4 @@ public record ProblemaDoc(
         @Schema(description = "Solo aparece en errores de validación",
                 example = "[\"nombre: El nombre es requerido\"]")
         List<String> errores
-) {
-}
+) {}
