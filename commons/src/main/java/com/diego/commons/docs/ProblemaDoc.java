@@ -16,13 +16,14 @@ public record ProblemaDoc(
         @Schema(description = "Código HTTP", example = "404")
         int status,
 
-        @Schema(description = "Mensaje del error", example = "Recurso no encontrado con id: 99")
+        @Schema(description = "Mensaje del error", example = "Producto no encontrado con id: 99")
         String detail,
 
-        @Schema(description = "Ruta que produjo el error", example = "/api/recurso/99")
+        @Schema(description = "Ruta que produjo el error", example = "/api/productos/99")
         String instance,
 
         @Schema(description = "Solo aparece en errores de validación",
                 example = "[\"nombre: El nombre es requerido\"]")
         List<String> errores
-) {}
+) {
+}

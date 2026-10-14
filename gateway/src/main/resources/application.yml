@@ -20,7 +20,7 @@ spring:
               predicates:
                 - Path=/api/pacientes/**
               filters:
-              - StripPrefix=2
+                - StripPrefix=2
     loadbalancer:
       enabled: true
 eureka:

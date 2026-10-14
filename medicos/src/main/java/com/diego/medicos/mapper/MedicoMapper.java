@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MedicoMapper implements CommonMapper<MedicoRequest, MedicoResponse, Medico> {
+
     @Override
     public Medico requestAEntidad(MedicoRequest request) {
-        return request == null ? null
+        return request == null
+                ? null
                 : Medico.crear(
                 request.nombre(),
                 request.apellidoPaterno(),
@@ -19,36 +21,35 @@ public class MedicoMapper implements CommonMapper<MedicoRequest, MedicoResponse,
                 request.edad(),
                 request.email(),
                 request.telefono(),
-                request.cedulaProfesional()
-        );
+                request.cedulaProfesional());
     }
 
-    public Medico requestAEntidad(
-            MedicoRequest request,
-            EspecialidadMedico especialidadMedico
-    ) {
+    public Medico requestAEntidad(MedicoRequest request, EspecialidadMedico especialidadMedico) {
+
         Medico medico = requestAEntidad(request);
 
-        medico.asignarEspecialidadMedico(especialidadMedico);
+        medico.actualizarEspecialidad(especialidadMedico);
 
         return medico;
     }
 
     @Override
-    public MedicoResponse entidadAResponse(Medico medico) {
-        return medico == null ? null
+    public MedicoResponse entidadAResponse(Medico entidad) {
+
+        return entidad == null
+                ? null
                 : new MedicoResponse(
-                        medico.getId(),
-                        medico.getNombre(),
-                        medico.getApellidoPaterno(),
-                        medico.getApellidoMaterno(),
-                        medico.getEdad(),
-                        medico.getEmail(),
-                        medico.getTelefono(),
-                        medico.getCedulaProfesional(),
-                        medico.getEspecialidadMedico().getDescripcion(),
-                        medico.getDisponibilidadMedico().getDescripcion(),
-                        medico.getDisponibilidadMedico().getCodigo()
-        );
+                entidad.getId(),
+                String.join(" ",
+                        entidad.getNombre(),
+                        entidad.getApellidoPaterno(),
+                        entidad.getApellidoMaterno()),
+                entidad.getEdad(),
+                entidad.getEmail(),
+                entidad.getTelefono(),
+                entidad.getCedulaProfesional(),
+                entidad.getEspecialidad().getDescripcion(),
+                entidad.getDisponibilidad().getDescripcion(),
+                entidad.getDisponibilidad().getCodigo());
     }
 }

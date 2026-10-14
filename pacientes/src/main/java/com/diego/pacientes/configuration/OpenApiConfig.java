@@ -19,12 +19,12 @@ public class OpenApiConfig {
     private String gatewayUrl;
 
     @Bean
-    public OpenAPI openApi(){
+    public OpenAPI openApi() {
         return new OpenAPI().info(
-                new Info()
-                        .title("API de pacientes")
-                        .version("1.0.0")
-                        .description("API para la gestion de pacientes medicos")
+                        new Info()
+                                .title("API de pacientes")
+                                .version("1.0.0")
+                                .description("API para la gestion de pacientes medicos")
                 )
                 .servers(List.of(
                         new Server()

@@ -2,40 +2,36 @@ package com.diego.commons.dto.medicos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Datos del medico")
+@Schema(description = "Información de un médico")
 public record MedicoResponse(
-        @Schema(description = "Identificador del medico", example = "1", minimum = "1")
+
+        @Schema(description = "Identificador único del médico", example = "1")
         Long id,
 
-        @Schema(description = "Nombre del medico", example = "Juan")
+        @Schema(description = "Nombre completo del médico", example = "Christian García López")
         String nombre,
 
-        @Schema(description = "El apellido paterno del medico", example = "Perez")
-        String apellidoPaterno,
+        @Schema(description = "Edad del médico", example = "35")
+        Short edad,
 
-        @Schema(description = "El apellido materno del medico", example = "Perez")
-        String apellidoMaterno,
-
-        @Schema(description = "La edad del medico", example = "20")
-        short edad,
-
-        @Schema(description = "Email del medico", example = "laura.martinez@medical.com")
+        @Schema(description = "Correo electrónico del médico", example = "christian.garcia@example.com")
         String email,
 
-        @Schema(description = "El telefono del medico", example = "9191011001")
+        @Schema(description = "Número telefónico de contacto del médico", example = "2221234567")
         String telefono,
 
-        @Schema(description = "Cedula profesional del medico. Debe contener exactamente 12 caracteres",
-                example = "123456789012", minLength = 12, maxLength = 12
-        )
-        String cedulaProfecional,
+        @Schema(description = "Cédula profesional del médico", example = "123456789012")
+        String cedulaProfesional,
 
-        @Schema(description = "La especialidad del medico", example = "9191011001")
+        @Schema(description = "Nombre de la especialidad médica del médico", example = "Cardiología")
         String especialidad,
 
-        @Schema(description = "La disponibilidad del medico", example = "9191011001")
+        @Schema(description = "Descripción de la disponibilidad del médico",
+                example = "Disponible para atender pacientes")
         String disponibilidad,
 
-        @Schema(description = "Identificador de la disponibilidad del medico", example = "5", minimum = "1")
+        @Schema(description = "Identificador de la disponibilidad asociada al médico", example = "1")
         Long idDisponibilidad
-) { }
+
+) {
+}

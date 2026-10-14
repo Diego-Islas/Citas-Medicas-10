@@ -30,6 +30,7 @@ public final class ValoresNumericosUtils {
             throw new DatoInvalidoException(mensajeError);
     }
 
+
     public static <N extends Number> void validarRango(
             N numero,
             N minimo,
@@ -50,5 +51,12 @@ public final class ValoresNumericosUtils {
 
     private static BigDecimal convertir(Number numero) {
         return new BigDecimal(numero.toString());
+    }
+
+    public static void validarLongPositivo(Long numero, String mensajeError) {
+        validarNumeroRequerido(numero, mensajeError);
+
+        if (numero < 0)
+            throw new DatoInvalidoException(mensajeError);
     }
 }
